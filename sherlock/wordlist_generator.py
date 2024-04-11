@@ -40,13 +40,12 @@ def generate_passwords(wmap, filepath):
                 upper = wrd[0].upper() + wrd[1:]
                 file.write(f"{upper}{i}\n")
 
-def main(username, output_path='target_wordlist.txt'):
-    txt_file_path=scrape.main(username)
-    words = create_wrd_map(txt_file_path) # create word frequency map from txt file of words that were scraped
+def main(words_file_path, output_path='target_wordlist.txt'):
+    words = create_wrd_map(words_file_path) # create word frequency map from txt file of words that were scraped
     words = sorted_by_values(words)
     
     generate_passwords(words, output_path)
-    os.remove(txt_file_path) # done with words txt file
+    os.remove(words_file_path) # done with words txt file
     
 if __name__ == "__main__":
     main()

@@ -47,10 +47,9 @@ def extract_visible_text(url):
         return None
 
 
-def main(username="Embarrassed-Hawk8464"):
-    # username = input("Enter the username to search: ")
+def main(username,file_path):
     urls = ""
-    file_path = username + ".txt"
+    output_path = username + '_words.txt'
 
     # Open the text file in read mode
     with open((file_path), 'r') as file:
@@ -66,7 +65,7 @@ def main(username="Embarrassed-Hawk8464"):
     counter = 0
     total_len = len(sherlock_urls_list)
 
-    with open(username + '_words.txt', "w") as file:
+    with open(output_path, "w") as file:
         # remove contents if file already exists
         file.truncate(0)
     
@@ -77,16 +76,14 @@ def main(username="Embarrassed-Hawk8464"):
         visible_text = extract_visible_text(url)
 
         if visible_text:            
-            with open(username + '_words.txt', 'a') as file:
+            with open(output_path, 'a') as file:
                 for word in visible_text:
                     file.write(word)
                     file.write("\n")
 
-    return username+'_words.txt' # return filepath for words
+    return output_path # return filepath for words
 
 
 
 if __name__ == "__main__":
-    from grab import *
-    grab("test")
     main()

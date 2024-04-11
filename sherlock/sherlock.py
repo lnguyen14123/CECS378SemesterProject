@@ -887,16 +887,21 @@ def main():
         if args.wordlist:
             print("Creating wordlist(s)...")
             if args.output:
-                result_file = args.output + "_wordlist.txt"
+                extension = os.path.splitext(result_file)[1] # get extension of file if any
+                if len(extension): # has extension
+                    wordlist_output_path = f"{username}_wordlist" + extension
+                else:
+                    wordlist_output_path = f"{username}_wordlist.txt"
             elif args.folderoutput:
                 # The usernames results should be stored in a targeted folder.
                 # If the folder doesn't exist, create it first
                 os.makedirs(args.folderoutput, exist_ok=True)
-                result_file = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
+                wordlist_output_path = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
             else:
-                result_file = f"{username}_wordlist.txt"
+                wordlist_output_path = f"{username}_wordlist.txt"            
 
-            wordlist_generator.main(username, result_file)
+            words_path = scrape.main(username,result_file)
+            wordlist_generator.main(words_path, wordlist_output_path)
         print()
     query_notify.finish()
 
