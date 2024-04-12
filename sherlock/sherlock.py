@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python3USERNAMES
 
 """
 Sherlock: Find Usernames Across Social Networks Module
@@ -620,7 +620,7 @@ def main():
     )
     parser.add_argument(
         "username",
-        nargs="+",
+        nargs="*",
         metavar="USERNAMES",
         action="store",
         help="One or more usernames to check with social networks. Check similar usernames using {?} (replace to '_', '-', '.').",
@@ -655,6 +655,14 @@ def main():
         action="store_true",
         default=True,
         help="Scrape words from found websites and create a wordlist from them.",
+    )
+
+    parser.add_argument(
+        "--imgsearch",
+        "-ris",
+        action="store_true",
+        default=True,
+        help="Reverse image search to find relevant websites",
     )
 
     args = parser.parse_args()
@@ -764,63 +772,99 @@ def main():
 
     # Run report on all specified users.
     all_usernames = []
-    for username in args.username:
-        if check_for_parameter(username):
-            for name in multiple_usernames(username):
-                all_usernames.append(name)
-        else:
-            all_usernames.append(username)
-    for username in all_usernames:
-        results = sherlock(
-            username,
-            site_data,
-            query_notify,
-            tor=args.tor,
-            unique_tor=args.unique_tor,
-            proxy=args.proxy,
-            timeout=args.timeout,
-        )
+    if args.imgsearch:
+        print(f"Image searching with fasfdsa")
+        image_search.main()
 
-        if args.output:
-            result_file = args.output
-        elif args.folderoutput:
-            # The usernames results should be stored in a targeted folder.
-            # If the folder doesn't exist, create it first
-            os.makedirs(args.folderoutput, exist_ok=True)
-            result_file = os.path.join(args.folderoutput, f"{username}.txt")
-        else:
-            result_file = f"{username}.txt"
+    if args.username:
+        for username in args.username:
+            if check_for_parameter(username):
+                for name in multiple_usernames(username):
+                    all_usernames.append(name)
+            else:
+                all_usernames.append(username)
+        for username in all_usernames:
+            results = sherlock(
+                username,
+                site_data,
+                query_notify,
+                tor=args.tor,
+                unique_tor=args.unique_tor,
+                proxy=args.proxy,
+                timeout=args.timeout,
+            )
 
-        with open(result_file, "w", encoding="utf-8") as file:
-            exists_counter = 0
-            for website_name in results:
-                dictionary = results[website_name]
-                if dictionary.get("status").status == QueryStatus.CLAIMED:
-                    exists_counter += 1
-                    file.write(dictionary["url_user"] + "\n")
-            file.write(f"Total Websites Username Detected On : {exists_counter}\n")
-
-        if args.csv:
-            result_file = f"{username}.csv"
-            if args.folderoutput:
+            if args.output:
+                result_file = args.output
+            elif args.folderoutput:
                 # The usernames results should be stored in a targeted folder.
                 # If the folder doesn't exist, create it first
                 os.makedirs(args.folderoutput, exist_ok=True)
-                result_file = os.path.join(args.folderoutput, result_file)
+                result_file = os.path.join(args.folderoutput, f"{username}.txt")
+            else:
+                result_file = f"{username}.txt"
 
-            with open(result_file, "w", newline="", encoding="utf-8") as csv_report:
-                writer = csv.writer(csv_report)
-                writer.writerow(
-                    [
-                        "username",
-                        "name",
-                        "url_main",
-                        "url_user",
-                        "exists",
-                        "http_status",
-                        "response_time_s",
-                    ]
-                )
+            with open(result_file, "w", encoding="utf-8") as file:
+                exists_counter = 0
+                for website_name in results:
+                    dictionary = results[website_name]
+                    if dictionary.get("status").status == QueryStatus.CLAIMED:
+                        exists_counter += 1
+                        file.write(dictionary["url_user"] + "\n")
+                file.write(f"Total Websites Username Detected On : {exists_counter}\n")
+
+            if args.csv:
+                result_file = f"{username}.csv"
+                if args.folderoutput:
+                    # The usernames results should be stored in a targeted folder.
+                    # If the folder doesn't exist, create it first
+                    os.makedirs(args.folderoutput, exist_ok=True)
+                    result_file = os.path.join(args.folderoutput, result_file)
+
+                with open(result_file, "w", newline="", encoding="utf-8") as csv_report:
+                    writer = csv.writer(csv_report)
+                    writer.writerow(
+                        [
+                            "username",
+                            "name",
+                            "url_main",
+                            "url_user",
+                            "exists",
+                            "http_status",
+                            "response_time_s",
+                        ]
+                    )
+                    for site in results:
+                        if (
+                            args.print_found
+                            and not args.print_all
+                            and results[site]["status"].status != QueryStatus.CLAIMED
+                        ):
+                            continue
+
+                        response_time_s = results[site]["status"].query_time
+                        if response_time_s is None:
+                            response_time_s = ""
+                        writer.writerow(
+                            [
+                                username,
+                                site,
+                                results[site]["url_main"],
+                                results[site]["url_user"],
+                                str(results[site]["status"].status),
+                                results[site]["http_status"],
+                                response_time_s,
+                            ]
+                        )
+            if args.xlsx:
+                usernames = []
+                names = []
+                url_main = []
+                url_user = []
+                exists = []
+                http_status = []
+                response_time_s = []
+
                 for site in results:
                     if (
                         args.print_found
@@ -829,81 +873,50 @@ def main():
                     ):
                         continue
 
-                    response_time_s = results[site]["status"].query_time
                     if response_time_s is None:
-                        response_time_s = ""
-                    writer.writerow(
-                        [
-                            username,
-                            site,
-                            results[site]["url_main"],
-                            results[site]["url_user"],
-                            str(results[site]["status"].status),
-                            results[site]["http_status"],
-                            response_time_s,
-                        ]
-                    )
-        if args.xlsx:
-            usernames = []
-            names = []
-            url_main = []
-            url_user = []
-            exists = []
-            http_status = []
-            response_time_s = []
+                        response_time_s.append("")
+                    else:
+                        response_time_s.append(results[site]["status"].query_time)
+                    usernames.append(username)
+                    names.append(site)
+                    url_main.append(results[site]["url_main"])
+                    url_user.append(results[site]["url_user"])
+                    exists.append(str(results[site]["status"].status))
+                    http_status.append(results[site]["http_status"])
 
-            for site in results:
-                if (
-                    args.print_found
-                    and not args.print_all
-                    and results[site]["status"].status != QueryStatus.CLAIMED
-                ):
-                    continue
+                DataFrame = pd.DataFrame(
+                    {
+                        "username": usernames,
+                        "name": names,
+                        "url_main": url_main,
+                        "url_user": url_user,
+                        "exists": exists,
+                        "http_status": http_status,
+                        "response_time_s": response_time_s,
+                    }
+                )
+                DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
 
-                if response_time_s is None:
-                    response_time_s.append("")
+            if args.wordlist:
+                print("Creating wordlist(s)...")
+                if args.output:
+                    extension = os.path.splitext(result_file)[1] # get extension of file if any
+                    if len(extension): # has extension
+                        wordlist_output_path = f"{username}_wordlist" + extension
+                    else:
+                        wordlist_output_path = f"{username}_wordlist.txt"
+                elif args.folderoutput:
+                    # The usernames results should be stored in a targeted folder.
+                    # If the folder doesn't exist, create it first
+                    os.makedirs(args.folderoutput, exist_ok=True)
+                    wordlist_output_path = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
                 else:
-                    response_time_s.append(results[site]["status"].query_time)
-                usernames.append(username)
-                names.append(site)
-                url_main.append(results[site]["url_main"])
-                url_user.append(results[site]["url_user"])
-                exists.append(str(results[site]["status"].status))
-                http_status.append(results[site]["http_status"])
+                    wordlist_output_path = f"{username}_wordlist.txt"            
 
-            DataFrame = pd.DataFrame(
-                {
-                    "username": usernames,
-                    "name": names,
-                    "url_main": url_main,
-                    "url_user": url_user,
-                    "exists": exists,
-                    "http_status": http_status,
-                    "response_time_s": response_time_s,
-                }
-            )
-            DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
-
-        if args.wordlist:
-            print("Creating wordlist(s)...")
-            if args.output:
-                extension = os.path.splitext(result_file)[1] # get extension of file if any
-                if len(extension): # has extension
-                    wordlist_output_path = f"{username}_wordlist" + extension
-                else:
-                    wordlist_output_path = f"{username}_wordlist.txt"
-            elif args.folderoutput:
-                # The usernames results should be stored in a targeted folder.
-                # If the folder doesn't exist, create it first
-                os.makedirs(args.folderoutput, exist_ok=True)
-                wordlist_output_path = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
-            else:
-                wordlist_output_path = f"{username}_wordlist.txt"            
-
-            words_path = scrape.main(username,result_file)
-            wordlist_generator.main(words_path, wordlist_output_path)
-        print()
-    query_notify.finish()
+                words_path = scrape.main(username,result_file)
+                wordlist_generator.main(words_path, wordlist_output_path)
+            print()
+        query_notify.finish()
 
 
 if __name__ == "__main__":
