@@ -2,6 +2,8 @@
 # that have been accumulated from social media webpages 
 # preferably created by the target
 import sys
+import os
+import scrape
 
 def sorted_by_values(d): # return a sorted dictionary by values descending
     return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
@@ -30,7 +32,7 @@ def create_wrd_map(filepath):
 #  writes in append mode
 def generate_passwords(wmap, filepath):
     # special_char = set("!","@") # can implement later
-    with open(filepath, 'w') as file:
+    with open(filepath, 'a') as file:
         for wrd in wmap.keys():
             file.write(f"{wrd}\n") #write base word
 
@@ -38,20 +40,12 @@ def generate_passwords(wmap, filepath):
                 upper = wrd[0].upper() + wrd[1:]
                 file.write(f"{upper}{i}\n")
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2: # arg variables must be correct
-        print("Usage: python wordlist_generator.py <path to .txt file>")
-        sys.exit(1)
-
-    txt_file_path = sys.argv[1]
-    words = create_wrd_map(txt_file_path) # technically could create a set but map to keep track of wordcount
+def main(words_file_path, output_path='target_wordlist.txt'):
+    words = create_wrd_map(words_file_path) # create word frequency map from txt file of words that were scraped
     words = sorted_by_values(words)
-
-    ### see word count of top 50 words
-    # for i, pack in enumerate(words.items()):
-    #     k , v = pack
-    #     print(k,v)
-    #     if i >= 50:
-    #         break
     
-    generate_passwords(words, 'target_wordlist.txt')
+    generate_passwords(words, output_path)
+    os.remove(words_file_path) # done with words txt file
+    
+if __name__ == "__main__":
+    main()
