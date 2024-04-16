@@ -47,7 +47,7 @@ def extract_visible_text(url):
         return None
 
 
-def main(username,file_path):
+def scrape(username,file_path):
     urls = ""
     output_path = username + '_words.txt'
 
@@ -86,4 +86,4 @@ def main(username,file_path):
 
 
 if __name__ == "__main__":
-    main()
+    scrape()

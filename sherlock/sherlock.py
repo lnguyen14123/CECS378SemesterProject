@@ -28,15 +28,11 @@ from sites import SitesInformation
 from colorama import init
 from argparse import ArgumentTypeError
 
-### importing scripts created by our team
-import scrape
-import wordlist_generator
-import fullname_lookup
-import image_search
+### importing modules our team needs
+from bs4 import BeautifulSoup
 ###
 module_name = "Sherlock: Find Usernames Across Social Networks"
 __version__ = "0.14.3"
-
 
 class SherlockFuturesSession(FuturesSession):
     def request(self, method, url, hooks=None, *args, **kwargs):
@@ -102,6 +98,124 @@ class SherlockFuturesSession(FuturesSession):
             method, url, hooks=hooks, *args, **kwargs
         )
 
+### from wordlist_generator.py
+def sorted_by_values(d): # return a sorted dictionary by values descending
+    return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
+
+def create_wrd_map(filepath):
+    word_freq = dict()
+    with open(filepath, "r") as file:
+        for line in file:
+            word = line.strip().lower()
+            if word in word_freq:
+                word_freq[word] += 1
+            else:
+                word_freq[word] = 1
+
+    return word_freq
+
+# pass in wordmap and a filepath to create permutations and write to file
+#  writes in append mode
+def generate_passwords(wmap, filepath):
+    # special_char = set("!","@") # can implement later
+    with open(filepath, 'a') as file:
+        for wrd in wmap.keys():
+            file.write(f"{wrd}\n") #write base word
+
+            for i in range(10): # write all words starting with uppercase and ending with each digit
+                upper = wrd[0].upper() + wrd[1:]
+                file.write(f"{upper}{i}\n")
+
+def gen_wordlist(words_file_path, output_path='target_wordlist.txt'):
+    words = create_wrd_map(words_file_path) # create word frequency map from txt file of words that were scraped
+    words = sorted_by_values(words)
+    
+    generate_passwords(words, output_path)
+    os.remove(words_file_path) # done with words txt file
+###
+
+### from scrape.py
+
+# Function to extract visible text from a webpage
+def extract_visible_text(url):
+    try:
+        # Send a GET request to the URL
+        response = requests.get(url, timeout=1)
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Parse the HTML content of the webpage
+            soup = BeautifulSoup(response.content, 'html.parser')
+            visible_text = soup.get_text()
+            visible_text_list = visible_text.split()
+
+            # Define a regular expression pattern to match only alphanumeric characters
+            alphanumeric_pattern = re.compile(r'[^A-Za-z0-9]')
+
+            # Remove non-alphanumeric characters from each element in the array
+            visible_text_list = [re.sub(alphanumeric_pattern, '', s) for s in visible_text_list]
+
+            # remove words that are only 1 character or longer than 20
+            visible_text_list = [elem for elem in visible_text_list if (len(elem) > 1  and len(elem) <= 20)]
+
+            # shorten the list to 100 words max
+            if(len(visible_text_list) > 100):
+                visible_text_list = visible_text_list[:100]
+
+
+            print(f"Successfully fetched URL: {url}.")
+
+            return visible_text_list
+
+        else:
+            print(f"Failed to fetch URL: {url}. Status code: {response.status_code}")
+            return None
+    
+    except requests.exceptions.Timeout:
+        # Handle timeout
+        print(f"Request timed out for: {url}")
+
+    
+    except Exception as e:
+        print(f"Error fetching URL: {url}. Exception: {e}")
+        return None
+
+def scrape(username,file_path):
+    urls = ""
+    output_path = username + '_words.txt'
+
+    # Open the text file in read mode
+    with open((file_path), 'r') as file:
+        # Read the entire contents of the file
+        urls = file.read()
+
+    # List of Sherlock URLs
+    sherlock_urls_list = urls.strip().split('\n')
+    sherlock_urls_list = sherlock_urls_list[:-1]
+    # sherlock_urls_list = sherlock_urls_list[16:20] 
+
+    # Extract visible text from each URL
+    counter = 0
+    total_len = len(sherlock_urls_list)
+
+    with open(output_path, "w") as file:
+        # remove contents if file already exists
+        file.truncate(0)
+    
+    for url in sherlock_urls_list:
+        # print(f"Fetching content from URL: {url}")
+        counter = counter + 1
+        print(f"{counter}/{total_len}", end=" ")
+        visible_text = extract_visible_text(url)
+
+        if visible_text:            
+            with open(output_path, 'a') as file:
+                for word in visible_text:
+                    file.write(word)
+                    file.write("\n")
+
+    return output_path # return filepath for words
+###
 
 def get_response(request_future, error_type, social_network):
     # Default for Response object if some failure occurs.
@@ -900,8 +1014,8 @@ def main():
             else:
                 wordlist_output_path = f"{username}_wordlist.txt"            
 
-            words_path = scrape.main(username,result_file)
-            wordlist_generator.main(words_path, wordlist_output_path)
+            words_path = scrape(username,result_file)
+            gen_wordlist(words_path, wordlist_output_path)
         print()
     query_notify.finish()
 
