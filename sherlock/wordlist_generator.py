@@ -6,12 +6,12 @@ import os
 def sorted_by_values(d): # return a sorted dictionary by values descending
     return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
 
-# give an iterable (containing elements you want to write to file) and a filepath 
-# to write values to file in append mode
-def write_to_file(txt,filepath):
-    with open(filepath, 'a') as file:
-        for line in txt:
-            file.write(f"{line}\n")
+# # give an iterable (containing elements you want to write to file) and a filepath 
+# # to write values to file in append mode
+# def write_to_file(txt,filepath):
+#     with open(filepath, 'a') as file:
+#         for line in txt:
+#             file.write(f"{line}\n")
 
 # can edit this function to filter out unnecessary words
 def create_wrd_map(filepath):
