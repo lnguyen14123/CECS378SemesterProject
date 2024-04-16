@@ -1,9 +1,7 @@
 # python script that should take in a raw txt file of words 
 # that have been accumulated from social media webpages 
 # preferably created by the target
-import sys
 import os
-import scrape
 
 def sorted_by_values(d): # return a sorted dictionary by values descending
     return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
