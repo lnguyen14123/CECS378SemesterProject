@@ -1,12 +1,14 @@
-# script to lookup fullname of target on google
-# Usage: python fullname_lookup.py "fullname" "<API_KEY>" "<Search Engine ID>"
+# script to lookup full name
+# installation: pip install beautifulsoup4
+#               pip install google
+# Usage: python3 fullname_lookup.py "fullname" 
 import sys
+from googlesearch import search
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4: # arg variables must be correct
-        print("Usage: python fullname_lookup.py \"fullname\" \"<API_KEY>\" \"<Search Engine ID>\"")
-        sys.exit(1)
-
+    # Setting command line arguments to variables
     fullname = sys.argv[1]
-    Project_API_KEY = sys.argv[2] # user must use their own API credentials
-    Project_CX = sys.argv[3] # search engine ID
+    
+    for j in search(fullname, tld="co.in", num=30, stop=15, pause=2):
+        print(j)
+
