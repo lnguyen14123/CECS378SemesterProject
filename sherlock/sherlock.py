@@ -30,6 +30,7 @@ from argparse import ArgumentTypeError
 
 ### importing additional modules our team needs
 from bs4 import BeautifulSoup
+from googlesearch import search
 ###
 module_name = "Sherlock: Find Usernames Across Social Networks"
 __version__ = "0.14.3"
@@ -136,7 +137,6 @@ def gen_wordlist(words_file_path, output_path='target_wordlist.txt'):
 ###
 
 ### from scrape.py
-
 # Function to extract visible text from a webpage
 def extract_visible_text(url):
     try:
@@ -218,6 +218,23 @@ def scrape(username,file_path):
     return output_path # return filepath for words
 ###
 
+### from fullname_lookup.py
+# pass in a string
+def fullname_lookup(fullname):
+    file_name = f"{fullname.replace(' ', '_')}_name_search.txt"
+
+    count = 0
+    # Opens .txt in append mode, creates if doesn't exist
+    with open(file_name, 'a') as file:
+        # Simulates a google search, writing each individual link into a file
+        for j in search(fullname, tld="co.in", num=30, stop=15, pause=2):
+            file.write(j + "\n")
+            count += 1
+
+    if os.path.exists(".google-cookie"):
+        os.remove(".google-cookie")
+    return count
+###
 def get_response(request_future, error_type, social_network):
     # Default for Response object if some failure occurs.
     response = None
@@ -735,7 +752,7 @@ def main():
     )
     parser.add_argument(
         "username",
-        nargs="+",
+        nargs="*",
         metavar="USERNAMES",
         action="store",
         help="One or more usernames to check with social networks. Check similar usernames using {?} (replace to '_', '-', '.').",
@@ -763,17 +780,25 @@ def main():
         default=False,
         help="Include checking of NSFW sites from default list.",
     )
-
+    ### added by our team
     parser.add_argument(
-        "--wordlist",
+        "--wordlist", 
         "-w",
         action="store_true",
-        default=True,
+        default=False,
         help="Scrape words from found websites and create a wordlist from them.",
     )
+    parser.add_argument(
+        "--name-search",
+        "-ns",
+        dest="name_search",
+        default=None,
+        help="Lookup a target by their fullname on google. Receive a file of links.",
+    )
+    ###
 
     args = parser.parse_args()
-    # print(args)
+    # print(type(args.name_search))
 
     # If the user presses CTRL-C, exit gracefully without throwing errors
     signal.signal(signal.SIGINT, handler)
@@ -795,6 +820,13 @@ def main():
 
     except Exception as error:
         print(f"A problem occurred while checking for an update: {error}")
+
+    if args.name_search is not None:
+        print(f"Conducting name search of \"{args.name_search}\" on google...")
+        count = fullname_lookup(args.name_search)
+        print(f"Name search completed with {count} results.")
+        if len(args.username) == 0:
+            sys.exit(1)
 
     # Argument check
     # TODO regex check on args.proxy
