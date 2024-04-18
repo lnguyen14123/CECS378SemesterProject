@@ -7,7 +7,7 @@ import os
 from googlesearch import search
 
 def main():
-    fullname = '-'.join(sys.argv[1:])  # Combines command line arguments into one string
+    fullname = '_'.join(sys.argv[1:])  # Combines command line arguments into one string
 
     # Checks incase .txt file exits, is so remove it
     if os.path.exists(fullname):
