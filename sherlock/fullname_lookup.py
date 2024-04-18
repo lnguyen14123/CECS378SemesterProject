@@ -7,15 +7,15 @@ import os
 from googlesearch import search
 
 if __name__ == "__main__":
-    if os.path.exists("fullname-search.txt"):
-        os.remove("fullname-search.txt")
+    fullname = '-'.join(sys.argv[1:])  # Combines command line arguments into one string
 
-    # Setting command line arguments to variables
-    fullname = sys.argv[1]
-    file = open("fullname-search.txt", "w")
+    # Checks incase .txt file exits, is so remove it
+    if os.path.exists(fullname):
+        os.remove(fullname)
+    file = open(fullname, "w")
 
-    
+    # Simulates a google search, writing each individual link into a file
     for j in search(fullname, tld="co.in", num=30, stop=15, pause=2):
-        file.write(j + "\n")
+        file.write(j + "\n")  
 
     file.close()
