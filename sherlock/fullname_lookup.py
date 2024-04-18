@@ -6,7 +6,7 @@ import sys
 import os
 from googlesearch import search
 
-if __name__ == "__main__":
+def main():
     fullname = '-'.join(sys.argv[1:])  # Combines command line arguments into one string
 
     # Checks incase .txt file exits, is so remove it
@@ -19,3 +19,7 @@ if __name__ == "__main__":
         file.write(j + "\n")  
 
     file.close()
+
+if __name__ == "__main__":
+    main()
+    
