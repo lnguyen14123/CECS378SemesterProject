@@ -821,12 +821,19 @@ def main():
     except Exception as error:
         print(f"A problem occurred while checking for an update: {error}")
 
+    ### added by our team
     if args.name_search is not None:
         print(f"Conducting name search of \"{args.name_search}\" on google...")
         count = fullname_lookup(args.name_search)
         print(f"Name search completed with {count} results.")
         if len(args.username) == 0:
             sys.exit(1)
+
+    if len(args.username) == 0:
+        parser.print_usage()
+        print("You must have a username and/or name search argument.")
+        sys.exit(1)
+    ###
 
     # Argument check
     # TODO regex check on args.proxy
