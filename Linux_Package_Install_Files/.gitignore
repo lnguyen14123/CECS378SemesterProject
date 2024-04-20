@@ -20,6 +20,7 @@ src/
 
 # Output files, except requirements.txt
 *.txt
+!README.txt
 !requirements.txt
 
 # Comma-Separated Values (CSV) Reports
