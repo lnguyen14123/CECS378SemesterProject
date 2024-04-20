@@ -33,6 +33,7 @@ def generate_passwords(wmap, filepath):
     with open(filepath, 'a') as file:
         for wrd in wmap.keys():
             file.write(f"{wrd}\n") #write base word
+            file.write(f"{wrd[0].upper() + wrd[1:]}\n") # write upper case of base word
 
             for i in range(10): # write all words starting with uppercase and ending with each digit
                 upper = wrd[0].upper() + wrd[1:]
