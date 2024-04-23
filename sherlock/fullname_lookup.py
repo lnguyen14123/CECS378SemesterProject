@@ -2,6 +2,9 @@
 # installation: pip install beautifulsoup4
 #               pip install google
 # Usage: python3 fullname_lookup.py "fullname" 
+# 
+# Reference of Google Search:
+# https://www.geeksforgeeks.org/performing-google-search-using-python-code/
 import sys
 import os
 from googlesearch import search
