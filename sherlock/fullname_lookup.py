@@ -16,7 +16,11 @@ def main():
     file = open(file_name, "w")
 
     # Simulates a google search, writing each individual link into a file
-    for j in search(fullname, tld="co.in", num=30, stop=15, pause=2):
+    # "tld='com'" - the top level domain, set to Google USA
+    # "num=30" - the number of search results per page
+    # "stop=15" - the total number of search results to retrieve
+    # "pause=2" - time to wait between HTTP request to Google, prevents two many request from occuring
+    for j in search(fullname, tld="com", num=30, stop=15, pause=2):
         file.write(j + "\n")  
 
     file.close()
