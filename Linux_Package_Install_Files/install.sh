@@ -14,7 +14,7 @@ sudo apt-get build-dep .
 pip3 install -r requirements.txt
 
 #build an unsigned version of the package. along with fakeroot as to not alter system files by accident
-dpkg-buildpackage -rfakeroot -uc -us
+dpkg-buildpackage -rfakeroot
 
 # return to original dir
 cd ..
