@@ -13,7 +13,7 @@ sudo apt-get build-dep .
 #install python run-time dependencies
 pip3 install -r requirements.txt
 
-#build an unsigned version of the package. along with fakeroot as to not alter system files by accident
+#build package with fakeroot as to not alter system files by accident
 dpkg-buildpackage -rfakeroot
 
 # return to original dir
