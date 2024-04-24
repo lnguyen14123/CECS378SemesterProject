@@ -105,6 +105,7 @@ def sorted_by_values(d): # return a sorted dictionary by values descending
 
 def create_wrd_map(filepath):
     word_freq = dict()
+    dates = set()
     with open(filepath, "r") as file:
         for line in file:
             word = line.strip().lower()
