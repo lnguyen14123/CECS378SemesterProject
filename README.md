@@ -7,23 +7,16 @@ An expansion of Sherlock's data reconnaisance capabilities.
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Getting Started](#getting-started)
+2. [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
-4. [Usage](#usage)
-5. [Contributing](#contributing)
-6. [License](#license)
+3. [Usage](#usage)
+4. [Contributing](#contributing)
+5. [License](#license)
 
 ## Introduction
 
 By utilizing a mix of John the Ripper as well as Sherlock, this project combines the abilities of data reconnaissance and password cracking in order to expand the capabilities of John the Ripper. By webscraping URLs provided by Sherlock for any one target, a wordlist can be produced with passwords potentially used by the target. Then, by providing this wordlist to John the Ripper, John can better crack password hashes generated from the target user.
-
-## Features
-
-- Feature 1
-- Feature 2
-- ...
 
 ## Getting Started
 
