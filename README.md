@@ -46,14 +46,14 @@ vi /etc/apt/sources.list
 #### restore permissions to file
 sudo chmod 644 /etc/apt/sources.list
 
-###Step 2. run the install.sh file 
-#####Change directory to where install.sh is located CECS378SemesterProject/Linux_Package_Install_Files/
+### Step 2. run the install.sh file 
+##### Change directory to where install.sh is located CECS378SemesterProject/Linux_Package_Install_Files/
 cd CECS378SemesterProject/Linux_Package_Install_Files/
 
-#####make the file executable
+##### make the file executable
 chmod +x install.sh
 
-#####run the shell file and respond to prompts
+##### run the shell file and respond to prompts
 ./install.sh
 
 ```
