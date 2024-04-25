@@ -11,8 +11,7 @@ An expansion of Sherlock's data reconnaisance capabilities.
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
 3. [Usage](#usage)
-4. [Contributing](#contributing)
-5. [License](#license)
+4. [License](#license)
 
 ## Introduction
 
@@ -61,6 +60,9 @@ chmod +x install.sh
 
 ./install.sh
 ```
+
+## Usage
+to be finished
 
 ## Lisence
 
