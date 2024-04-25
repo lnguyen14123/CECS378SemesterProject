@@ -36,7 +36,7 @@ List any software, tools, or dependencies required to run the project.
 ## How to install:
 
 ### Step 1. add a deb-src to sources.list if not done already
-####change permissions of sources.list so you may write to file
+#### change permissions of sources.list so you may write to file
 ```
 sudo chmod 777 /etc/apt/sources.list
 ```
@@ -45,7 +45,7 @@ sudo chmod 777 /etc/apt/sources.list
 ```
 vi /etc/apt/sources.list
 ```
-#uncomment the line that begins with deb-src -> esc -> :wq
+#### uncomment the line that begins with deb-src -> esc -> :wq
 
 #### restore permissions to file
 ```
