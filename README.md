@@ -2,7 +2,7 @@
 
 # Team 3 CECS 378 Semester Project
 
-By utilizing a mix of John the Ripper as well as Sherlock, this project combines the abilities of data reconnaissance and password cracking in order to expand the capabilities of John the Ripper. By webscraping URLs provided by Sherlock for any one target, a wordlist can be produced with passwords potentially used by the target. Then, by providing this wordlist to John the Ripper, John can better crack password hashes generated from the target user.
+An expansion of Sherlock's data reconnaisance capabilities.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ By utilizing a mix of John the Ripper as well as Sherlock, this project combines
 
 ## Introduction
 
-Brief introduction or overview of the project. Provide context about its purpose and goals.
+By utilizing a mix of John the Ripper as well as Sherlock, this project combines the abilities of data reconnaissance and password cracking in order to expand the capabilities of John the Ripper. By webscraping URLs provided by Sherlock for any one target, a wordlist can be produced with passwords potentially used by the target. Then, by providing this wordlist to John the Ripper, John can better crack password hashes generated from the target user.
 
 ## Features
 
