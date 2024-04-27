@@ -86,4 +86,4 @@ def scrape(username,file_path):
 
 
 if __name__ == "__main__":
-    scrape()
+    scrape("apex_fanatic2020","C:\\Users\\Alex\\Documents\\Sem 6 - Spring '24\\CECS 378\\Semester Project\\CECS378SemesterProject\\apex_fanatic2020.txt")
