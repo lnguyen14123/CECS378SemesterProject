@@ -23,7 +23,7 @@ Instructions for setting up the project locally. Include prerequisites and insta
 
 ### Prerequisites
 
-John the Ripper is reccomended to use for password cracking with the provided wordlist, but the generated wordlist can be used alone as well.
+John the Ripper is recommended to use for password cracking with the provided wordlist, but the generated wordlist can be used alone as well.
 
 ## How to install:
 
