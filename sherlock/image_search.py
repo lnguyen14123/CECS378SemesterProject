@@ -17,7 +17,7 @@ import base64
 
 client_id = 'f0af1953936b647'
 client_secret = '15cf26798f8c0cdadf9953f82255a5c08e17f379'
-file_path = 'C:\\Users\\BryanPC\\Downloads\\bird.png'
+file_path = 'C:\\Users\\BryanPC\\Downloads\\lebron.jpg'
 
 def print_dictionary(dictionary):
     for key, value in dictionary.items():
@@ -33,8 +33,6 @@ def main(output_path='website_list.txt'):
         'Authorization': 'Client-ID {}'.format(client_id)
     }
 
-    print(headers)
-    print(encoded_string)
     print("uploading")
     res = requests.post(url="https://api.imgur.com/3/image", headers=headers, data={
         "image": encoded_string
