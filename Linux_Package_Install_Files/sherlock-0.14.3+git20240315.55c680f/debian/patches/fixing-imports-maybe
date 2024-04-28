@@ -1,0 +1,173 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ sherlock (0.14.3+git20240315.55c680f-1) unstable; urgency=medium
+ .
+   * New upstream version 0.14.3+git20240315.55c680f
+Author: Josenilson Ferreira da Silva <nilsonfsilva@hotmail.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
+Bug: <upstream-bugtracker-url>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: (no|not-needed|<patch-forwarded-url>)
+Applied-Upstream: <version>, (<commit-url>|commit:<commid-id>)
+Reviewed-By: <name and email of someone who approved/reviewed the patch>
+Last-Update: 2024-04-16
+
+--- sherlock-0.14.3+git20240315.55c680f.orig/.pybuild/cpython3_3.11_sherlock/build/sherlock/sherlock.py
++++ sherlock-0.14.3+git20240315.55c680f/.pybuild/cpython3_3.11_sherlock/build/sherlock/sherlock.py
+@@ -28,6 +28,13 @@ from .sites import SitesInformation
+ from colorama import init
+ from argparse import ArgumentTypeError
+ 
++### importing scripts created by our team
++import .scrape
++import .wordlist_generator
++import .fullname_lookup
++import .image_search
++###
++
+ module_name = "Sherlock: Find Usernames Across Social Networks"
+ __version__ = "0.14.3"
+ 
+@@ -643,6 +650,14 @@ def main():
+         help="Include checking of NSFW sites from default list.",
+     )
+ 
++    parser.add_argument(
++        "--wordlist",
++        "-w",
++        action="store_true",
++        default=True,
++        help="Scrape words from found websites and create a wordlist from them.",
++    )
++
+     args = parser.parse_args()
+ 
+     # If the user presses CTRL-C, exit gracefully without throwing errors
+@@ -869,6 +884,25 @@ def main():
+             )
+             DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
+ 
++        if args.wordlist:
++            print("Creating wordlist(s)...")
++            if args.output:
++                extension = os.path.splitext(result_file)[1] # get extension of file if any
++                if len(extension): # has extension
++                    wordlist_output_path = f"{username}_wordlist" + extension
++                else:
++                    wordlist_output_path = f"{username}_wordlist.txt"
++            elif args.folderoutput:
++                # The usernames results should be stored in a targeted folder.
++                # If the folder doesn't exist, create it first
++                os.makedirs(args.folderoutput, exist_ok=True)
++                wordlist_output_path = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
++            else:
++                wordlist_output_path = f"{username}_wordlist.txt"            
++
++            words_path = scrape.main(username,result_file)
++            wordlist_generator.main(words_path, wordlist_output_path)
++
+         print()
+     query_notify.finish()
+ 
+--- sherlock-0.14.3+git20240315.55c680f.orig/.pybuild/cpython3_3.12_sherlock/build/sherlock/sherlock.py
++++ sherlock-0.14.3+git20240315.55c680f/.pybuild/cpython3_3.12_sherlock/build/sherlock/sherlock.py
+@@ -28,6 +28,13 @@ from .sites import SitesInformation
+ from colorama import init
+ from argparse import ArgumentTypeError
+ 
++### importing scripts created by our team
++import .scrape
++import .wordlist_generator
++import .fullname_lookup
++import .image_search
++###
++
+ module_name = "Sherlock: Find Usernames Across Social Networks"
+ __version__ = "0.14.3"
+ 
+@@ -643,6 +650,14 @@ def main():
+         help="Include checking of NSFW sites from default list.",
+     )
+ 
++    parser.add_argument(
++        "--wordlist",
++        "-w",
++        action="store_true",
++        default=True,
++        help="Scrape words from found websites and create a wordlist from them.",
++    )
++
+     args = parser.parse_args()
+ 
+     # If the user presses CTRL-C, exit gracefully without throwing errors
+@@ -869,6 +884,25 @@ def main():
+             )
+             DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
+ 
++        if args.wordlist:
++            print("Creating wordlist(s)...")
++            if args.output:
++                extension = os.path.splitext(result_file)[1] # get extension of file if any
++                if len(extension): # has extension
++                    wordlist_output_path = f"{username}_wordlist" + extension
++                else:
++                    wordlist_output_path = f"{username}_wordlist.txt"
++            elif args.folderoutput:
++                # The usernames results should be stored in a targeted folder.
++                # If the folder doesn't exist, create it first
++                os.makedirs(args.folderoutput, exist_ok=True)
++                wordlist_output_path = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
++            else:
++                wordlist_output_path = f"{username}_wordlist.txt"            
++
++            words_path = scrape.main(username,result_file)
++            wordlist_generator.main(words_path, wordlist_output_path)
++
+         print()
+     query_notify.finish()
+ 
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/.pytest_cache/v/cache/lastfailed
+@@ -0,0 +1,3 @@
++{
++  "sherlock/tests/test_multiple_usernames.py": true
++}
+\ No newline at end of file
+--- sherlock-0.14.3+git20240315.55c680f.orig/.pytest_cache/v/cache/nodeids
++++ sherlock-0.14.3+git20240315.55c680f/.pytest_cache/v/cache/nodeids
+@@ -1,3 +1 @@
+-[
+-  "sherlock/tests/test_multiple_usernames.py::TestMultipleUsernames::test_area"
+-]
+\ No newline at end of file
++[]
+\ No newline at end of file
+--- sherlock-0.14.3+git20240315.55c680f.orig/sherlock/sherlock.py
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/sherlock.py
+@@ -29,10 +29,10 @@ from colorama import init
+ from argparse import ArgumentTypeError
+ 
+ ### importing scripts created by our team
+-import .scrape
+-import .wordlist_generator
+-import .fullname_lookup
+-import .image_search
++from .scrape import *
++from .wordlist_generator import *
++#import fullname_lookup
++#import image_search
+ ###
+ 
+ module_name = "Sherlock: Find Usernames Across Social Networks"

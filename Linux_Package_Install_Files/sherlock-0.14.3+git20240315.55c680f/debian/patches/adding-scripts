@@ -1,0 +1,207 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ sherlock (0.14.3+git20240315.55c680f-1) unstable; urgency=medium
+ .
+   * New upstream version 0.14.3+git20240315.55c680f
+Author: Josenilson Ferreira da Silva <nilsonfsilva@hotmail.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
+Bug: <upstream-bugtracker-url>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: (no|not-needed|<patch-forwarded-url>)
+Applied-Upstream: <version>, (<commit-url>|commit:<commid-id>)
+Reviewed-By: <name and email of someone who approved/reviewed the patch>
+Last-Update: 2024-04-16
+
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/fullname_lookup.py
+@@ -0,0 +1,13 @@
++# script to lookup fullname of target on google
++# Usage: python fullname_lookup.py "fullname" "<API_KEY>" "<Search Engine ID>"
++import sys
++
++if __name__ == "__main__":
++    if len(sys.argv) != 4: # arg variables must be correct
++        print("Usage: python fullname_lookup.py \"fullname\" \"<API_KEY>\" \"<Search Engine ID>\"")
++        sys.exit(1)
++
++    fullname = sys.argv[1]
++    Project_API_KEY = sys.argv[2] # user must use their own API credentials
++    Project_CX = sys.argv[3] # search engine ID
++
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/image_search.py
+@@ -0,0 +1,14 @@
++# script that takes advantage of google search api to reverse image search pictures of target
++# Usage: python image_search.py <image path> "<API_KEY>" "<Search Engine ID>"
++import sys
++# from google_images_search import GoogleImagesSearch
++
++if __name__ == "__main__":
++    if len(sys.argv) != 4: # arg variables must be correct
++        print("Usage: python image_search.py <image_path> \"<API_KEY>\" \"<Search Engine ID>\"")
++        sys.exit(1)
++
++    image_path = sys.argv[1]
++    Project_API_KEY = sys.argv[2] # user must use their own API credentials
++    Project_CX = sys.argv[3] # search engine ID
++
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/scrape.py
+@@ -0,0 +1,90 @@
++import requests
++from bs4 import BeautifulSoup
++import re
++
++# Function to extract visible text from a webpage
++def extract_visible_text(url):
++    try:
++        # Send a GET request to the URL
++        response = requests.get(url, timeout=1)
++        
++        # Check if the request was successful
++        if response.status_code == 200:
++            # Parse the HTML content of the webpage
++            soup = BeautifulSoup(response.content, 'html.parser')
++            visible_text = soup.get_text()
++            visible_text_list = visible_text.split()
++
++            # Define a regular expression pattern to match only alphanumeric characters
++            alphanumeric_pattern = re.compile(r'[^A-Za-z0-9]')
++
++            # Remove non-alphanumeric characters from each element in the array
++            visible_text_list = [re.sub(alphanumeric_pattern, '', s) for s in visible_text_list]
++
++            # remove words that are only 1 character or longer than 20
++            visible_text_list = [elem for elem in visible_text_list if (len(elem) > 1  and len(elem) <= 20)]
++
++            # shorten the list to 100 words max
++            if(len(visible_text_list) > 100):
++                visible_text_list = visible_text_list[:100]
++
++
++            print(f"Successfully fetched URL: {url}.")
++
++            return visible_text_list
++
++        else:
++            print(f"Failed to fetch URL: {url}. Status code: {response.status_code}")
++            return None
++    
++    except requests.exceptions.Timeout:
++        # Handle timeout
++        print(f"Request timed out for: {url}")
++
++    
++    except Exception as e:
++        print(f"Error fetching URL: {url}. Exception: {e}")
++        return None
++
++
++def main(username,file_path):
++    urls = ""
++    output_path = username + '_words.txt'
++
++    # Open the text file in read mode
++    with open((file_path), 'r') as file:
++        # Read the entire contents of the file
++        urls = file.read()
++
++    # List of Sherlock URLs
++    sherlock_urls_list = urls.strip().split('\n')
++    sherlock_urls_list = sherlock_urls_list[:-1]
++    # sherlock_urls_list = sherlock_urls_list[16:20] 
++
++    # Extract visible text from each URL
++    counter = 0
++    total_len = len(sherlock_urls_list)
++
++    with open(output_path, "w") as file:
++        # remove contents if file already exists
++        file.truncate(0)
++    
++    for url in sherlock_urls_list:
++        # print(f"Fetching content from URL: {url}")
++        counter = counter + 1
++        print(f"{counter}/{total_len}", end=" ")
++        visible_text = extract_visible_text(url)
++
++        if visible_text:            
++            with open(output_path, 'a') as file:
++                for word in visible_text:
++                    file.write(word)
++                    file.write("\n")
++
++    return output_path # return filepath for words
++
++
++
++if __name__ == "__main__":
++    main()
++
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/wordlist_generator.py
+@@ -0,0 +1,52 @@
++# python script that should take in a raw txt file of words 
++# that have been accumulated from social media webpages 
++# preferably created by the target
++import sys
++import os
++import scrape
++
++def sorted_by_values(d): # return a sorted dictionary by values descending
++    return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
++
++# give an iterable (containing elements you want to write to file) and a filepath 
++# to write values to file in append mode
++def write_to_file(txt,filepath):
++    with open(filepath, 'a') as file:
++        for line in txt:
++            file.write(f"{line}\n")
++
++# can edit this function to filter out unnecessary words
++def create_wrd_map(filepath):
++    word_freq = dict()
++    with open(filepath, "r") as file:
++        for line in file:
++            word = line.strip().lower()
++            if word in word_freq:
++                word_freq[word] += 1
++            else:
++                word_freq[word] = 1
++
++    return word_freq
++
++# pass in wordmap and a filepath to create permutations and write to file
++#  writes in append mode
++def generate_passwords(wmap, filepath):
++    # special_char = set("!","@") # can implement later
++    with open(filepath, 'a') as file:
++        for wrd in wmap.keys():
++            file.write(f"{wrd}\n") #write base word
++
++            for i in range(10): # write all words starting with uppercase and ending with each digit
++                upper = wrd[0].upper() + wrd[1:]
++                file.write(f"{upper}{i}\n")
++
++def main(words_file_path, output_path='target_wordlist.txt'):
++    words = create_wrd_map(words_file_path) # create word frequency map from txt file of words that were scraped
++    words = sorted_by_values(words)
++    
++    generate_passwords(words, output_path)
++    os.remove(words_file_path) # done with words txt file
++    
++if __name__ == "__main__":
++    main()
++

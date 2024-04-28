@@ -1,0 +1,19 @@
+Package: sherlock
+Version: 0.14.3+git20240315.55c680f-1
+Architecture: all
+Maintainer: Debian Security Tools <team+pkg-security@tracker.debian.org>
+Installed-Size: 184
+Depends: python3-bs4 (>= 4.12.2), python3-certifi, python3-colorama, python3-openpyxl, python3-pandas, python3-requests, python3-requests-futures, python3-socks, python3-stem, python3-torrequest, python3:any
+Section: misc
+Priority: optional
+Homepage: https://github.com/sherlock-project/sherlock
+Description: Find usernames across social networks
+ Sherlock relies on the site's designers providing a  unique URL
+ for a registered username. To determine if a username is available,
+ Sherlock queries that URL, and uses to response to understand if
+ there is a claimed username already there.
+ .
+ Currently, the tool is capable of locating users on more than 300 social
+ networks: Apple Developer, Arduino, Docker Hub, GitHub, GitLab,  Facebook,
+ BitCoinForum, CNET, IFTTT, Instagram, PlayStore  PyPI, Scribd, Telegram,
+ TikTok, Tinder etc.

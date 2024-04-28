@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: sherlock
+Version: 0.14.3
+Summary: Hunt down social media accounts by username across social networks
+Home-page: https://github.com/sherlock-project/sherlock
+Author: Sherlock Project
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python ::3
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.0
+License-File: LICENSE

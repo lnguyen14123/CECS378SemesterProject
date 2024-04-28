@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Sat, 06 Apr 2024 14:33:20 -0300
+Source: sherlock
+Binary: sherlock
+Architecture: source all
+Version: 0.14.3+git20240315.55c680f-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Debian Security Tools <team+pkg-security@tracker.debian.org>
+Changed-By: Josenilson Ferreira da Silva <nilsonfsilva@hotmail.com>
+Description:
+ sherlock   - Find usernames across social networks
+Changes:
+ sherlock (0.14.3+git20240315.55c680f-1) unstable; urgency=medium
+ .
+   * New upstream version 0.14.3+git20240315.55c680f
+Checksums-Sha1:
+ 75d39f7b00499e65fc950e637e190138d8ee9936 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ d0390f116d91158cf64e939f9b065384f6f6c0c9 182028 sherlock_0.14.3+git20240315.55c680f.orig.tar.xz
+ 75576338a6aa0cc2cdee9b24648f19bf0e22802c 33952 sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
+ 27b9447f700280657e6b897e1039fa3de5afabf0 34880 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 18656f20a4b14f8245cd6ce472b759e14db58f95 7629 sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
+Checksums-Sha256:
+ 90a3f1786857c3b03e3bf6bd0670a8027366ab2290fb71d1b5d566b5905c557c 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 27609049254eba75005c85a64510f73c9a1e40721b466791ef2265a7e8662fde 182028 sherlock_0.14.3+git20240315.55c680f.orig.tar.xz
+ 69ddd0c4334aed3b6eb9c72bf3e9ab503c95f3e5c9db6b31bfc24da6b6e251e1 33952 sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
+ 41ff9a03ad69d6e98e8e4bfa918eb6877ab85c16a4cebcc18dc05b802348eaf1 34880 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 0955327f4258c1f944bc3a1a897c56aa0adb571893cc0427831146c95487153b 7629 sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
+Files:
+ 95646e367d2ac17eda9e465323be8395 1535 misc optional sherlock_0.14.3+git20240315.55c680f-1.dsc
+ d9621287c7032b8fde2b83eb9306d977 182028 misc optional sherlock_0.14.3+git20240315.55c680f.orig.tar.xz
+ 07b93e1a00225fc06cde2ad6e43c62f0 33952 misc optional sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
+ 3fde9fd5cbd847bfbe35ef39a23411c3 34880 misc optional sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 243ef57309e8cfb8f29ea4af0c6979ad 7629 misc optional sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
