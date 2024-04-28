@@ -1,0 +1,43 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ sherlock (0.14.3+git20240315.55c680f-1) unstable; urgency=medium
+ .
+   * New upstream version 0.14.3+git20240315.55c680f
+Author: Josenilson Ferreira da Silva <nilsonfsilva@hotmail.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
+Bug: <upstream-bugtracker-url>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: (no|not-needed|<patch-forwarded-url>)
+Applied-Upstream: <version>, (<commit-url>|commit:<commid-id>)
+Reviewed-By: <name and email of someone who approved/reviewed the patch>
+Last-Update: 2024-04-28
+
+--- sherlock-0.14.3+git20240315.55c680f.orig/sherlock/wordlist_generator.py
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/wordlist_generator.py
+@@ -24,6 +24,7 @@ def create_wrd_map(filepath):
+ # pass in wordmap and a filepath to create permutations and write to file
+ #  writes in append mode
+ def generate_passwords(wmap, dates, filepath):
++    #commonly used special characters
+     special_char = set(['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', '\\', ';', ':', ',', '.', '<', '>', '/', '?'])
+     with open(filepath, 'a') as file:
+         for wrd in wmap.keys():
+@@ -48,4 +49,4 @@ def gen_wordlist(words_file_path, output
+     os.remove(words_file_path) # done with words txt file
+     
+ if __name__ == "__main__":
+-    gen_wordlist("apex_fanatic2020_words.txt","apex_fanatic2020_wordlist.txt")
+\ No newline at end of file
++    gen_wordlist("apex_fanatic2020_words.txt","apex_fanatic2020_wordlist.txt")

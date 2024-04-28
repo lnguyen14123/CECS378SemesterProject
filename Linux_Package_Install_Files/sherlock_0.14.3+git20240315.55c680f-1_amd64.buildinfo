@@ -4,17 +4,17 @@ Binary: sherlock
 Architecture: all source
 Version: 0.14.3+git20240315.55c680f-1
 Checksums-Md5:
- 0eecc06c4834f9b929381e25cf28cb3f 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
- a94989b2996aedc50eaa7bafeef3ba40 35000 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 8a48c44977e86b50e6aa5c54512bc558 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ ce1ad2a81dfb242f985dc28c58844d0b 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Checksums-Sha1:
- 682166a0a61b779524cffa1e88d9784053302a57 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
- e3d5af0dc59935faa5ab0e04cafb76d9eb80879b 35000 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 8cbf007a01ed1e3a8fcb8741439526b282f76582 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 74f58f9767c448019347632670bd7a1cbe184fee 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Checksums-Sha256:
- ed01808587422624d2bed98081dd999b0980e7cca3588d16a6cfa631179bb80c 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
- a9194439e6fb5e30d50a42533aeb44d78492c83995023a8ce3d7681e5dbc5402 35000 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 2c86dd6aa27391459ded61c25608c10823bc13eec0cc934f6e4379627996d2bf 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 5efaa209e67b8df4bc0bd00aef906d2b949958fe74bce79814d1d9e39a9d401a 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Build-Origin: Kali
 Build-Architecture: amd64
-Build-Date: Sun, 28 Apr 2024 13:26:35 -0700
+Build-Date: Sun, 28 Apr 2024 16:14:27 -0700
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
 Installed-Build-Depends:

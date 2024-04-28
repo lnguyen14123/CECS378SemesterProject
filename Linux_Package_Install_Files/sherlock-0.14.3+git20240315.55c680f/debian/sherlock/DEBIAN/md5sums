@@ -19,4 +19,4 @@ cc7685f62669c123138b6e849328750c  usr/share/sherlock/sherlock/resources/data.jso
 8e4083cc3dda3f7b8d28d8e7eca4ace0  usr/share/sherlock/sherlock/scrape.py
 ebc7318c88cb6ee386cdc2864d83e5d3  usr/share/sherlock/sherlock/sherlock.py
 baa1397e74a4c1c39c44c7483bb23d9f  usr/share/sherlock/sherlock/sites.py
-a02c8c4781f194fe644a1da99e4c4a12  usr/share/sherlock/sherlock/wordlist_generator.py
+25b609fb784db096d36872574a340e2e  usr/share/sherlock/sherlock/wordlist_generator.py

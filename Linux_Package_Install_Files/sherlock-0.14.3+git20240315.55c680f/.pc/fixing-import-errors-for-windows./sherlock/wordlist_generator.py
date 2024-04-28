@@ -24,7 +24,6 @@ def create_wrd_map(filepath):
 # pass in wordmap and a filepath to create permutations and write to file
 #  writes in append mode
 def generate_passwords(wmap, dates, filepath):
-    #commonly used special characters
     special_char = set(['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', '\\', ';', ':', ',', '.', '<', '>', '/', '?'])
     with open(filepath, 'a') as file:
         for wrd in wmap.keys():
