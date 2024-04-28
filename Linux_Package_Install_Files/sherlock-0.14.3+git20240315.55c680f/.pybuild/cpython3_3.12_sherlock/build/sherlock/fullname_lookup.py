@@ -16,7 +16,7 @@ def fullname_lookup(fullname):
     # Opens .txt in append mode, creates if doesn't exist
     with open(file_name, 'a') as file:
         # Simulates a google search, writing each individual link into a file
-        for j in search(fullname, tld="co.in", num=30, stop=15, pause=2):
+        for j in search(fullname, tld="com", num=30, stop=15, pause=2):
             file.write(j + "\n")
 
     if os.path.exists(".google-cookie"):

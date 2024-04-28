@@ -11,4 +11,3 @@ if __name__ == "__main__":
     image_path = sys.argv[1]
     Project_API_KEY = sys.argv[2] # user must use their own API credentials
     Project_CX = sys.argv[3] # search engine ID
-
