@@ -14,7 +14,7 @@ Checksums-Sha256:
  41ff9a03ad69d6e98e8e4bfa918eb6877ab85c16a4cebcc18dc05b802348eaf1 34880 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Build-Origin: Kali
 Build-Architecture: amd64
-Build-Date: Sat, 27 Apr 2024 19:05:05 -0700
+Build-Date: Sun, 28 Apr 2024 12:53:41 -0700
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
 Installed-Build-Depends:
