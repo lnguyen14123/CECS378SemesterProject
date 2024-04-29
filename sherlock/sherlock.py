@@ -31,7 +31,6 @@ from argparse import ArgumentTypeError
 ### importing additional modules our team needs
 from bs4 import BeautifulSoup
 from googlesearch import search
-# from imgurpython import ImgurClient
 from serpapi import GoogleSearch
 import base64
 ###
