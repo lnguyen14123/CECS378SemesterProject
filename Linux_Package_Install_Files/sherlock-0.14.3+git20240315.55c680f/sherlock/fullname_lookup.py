@@ -27,5 +27,4 @@ if __name__ == "__main__":
         print("Usage: python3 fullname_lookup.py [fullname] ")
         sys.exit(1)
     fullname = " ".join((sys.argv[1:]))
-    fullname_lookup(fullname)
-    
+    fullname_lookup(fullname) 

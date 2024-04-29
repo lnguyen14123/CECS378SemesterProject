@@ -24,7 +24,6 @@ def create_wrd_map(filepath):
 # pass in wordmap and a filepath to create permutations and write to file
 #  writes in append mode
 def generate_passwords(wmap, dates, filepath):
-    #commonly used special characters
     special_char = set(['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', '\\', ';', ':', ',', '.', '<', '>', '/', '?'])
     with open(filepath, 'a') as file:
         for wrd in wmap.keys():
@@ -50,3 +49,4 @@ def gen_wordlist(words_file_path, output_path='target_wordlist.txt'):
     
 if __name__ == "__main__":
     gen_wordlist("apex_fanatic2020_words.txt","apex_fanatic2020_wordlist.txt")
+

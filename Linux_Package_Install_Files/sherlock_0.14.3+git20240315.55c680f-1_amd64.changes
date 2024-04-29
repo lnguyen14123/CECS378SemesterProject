@@ -1,3 +1,6 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
 Format: 1.8
 Date: Sat, 06 Apr 2024 14:33:20 -0300
 Source: sherlock
@@ -15,20 +18,37 @@ Changes:
  .
    * New upstream version 0.14.3+git20240315.55c680f
 Checksums-Sha1:
- 8cbf007a01ed1e3a8fcb8741439526b282f76582 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 77af863386e0d3ba923f859887dab55059098474 2415 sherlock_0.14.3+git20240315.55c680f-1.dsc
  d0390f116d91158cf64e939f9b065384f6f6c0c9 182028 sherlock_0.14.3+git20240315.55c680f.orig.tar.xz
- fb7d11e1964b9d8c1132be3815039c7318ba2b9d 39280 sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
- 74f58f9767c448019347632670bd7a1cbe184fee 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
- 99e586d77acb98f2f5d5700537dabeedb80127ad 7629 sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
+ 1e72328800314610964bd0564b190ff1c892089d 9480 sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
+ 43717b005412d81471dcbbb2bda2f30c8eec0216 35008 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 61754eaecc188e4ed7f50926398aae79c78416bc 8512 sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
 Checksums-Sha256:
- 2c86dd6aa27391459ded61c25608c10823bc13eec0cc934f6e4379627996d2bf 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ f2dd665b0f8e7aea0f0c24aeb60f889303b62812fe5e957a5834d2eac1cbc58f 2415 sherlock_0.14.3+git20240315.55c680f-1.dsc
  27609049254eba75005c85a64510f73c9a1e40721b466791ef2265a7e8662fde 182028 sherlock_0.14.3+git20240315.55c680f.orig.tar.xz
- 6339f54d986754256501834e710132bd11dbc635e66f4a0e42f2ab8da89f04f7 39280 sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
- 5efaa209e67b8df4bc0bd00aef906d2b949958fe74bce79814d1d9e39a9d401a 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
- 32d3d707df52169e6f6e13ce62ffa1101a5c1508070ddb47cf7cd69a07e0dc6d 7629 sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
+ 5fecd45360b2cc43d422086304a6ea947d784d5e0d724b6d7613581f0988ce99 9480 sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
+ 9d8861f0e8b2c38488be98c4e9a8c403a95de4f4db9dbfb23dda687c350f1e15 35008 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 9b8047b289d68cf0d7ed82937886719ac6f4012ccf9ecfa8550b8cfaa90c35ec 8512 sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
 Files:
- 8a48c44977e86b50e6aa5c54512bc558 1535 misc optional sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 654cbcafe87cc688ffd53beaa96d336d 2415 misc optional sherlock_0.14.3+git20240315.55c680f-1.dsc
  d9621287c7032b8fde2b83eb9306d977 182028 misc optional sherlock_0.14.3+git20240315.55c680f.orig.tar.xz
- 109392a588be508060a93aba9aec161f 39280 misc optional sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
- ce1ad2a81dfb242f985dc28c58844d0b 35016 misc optional sherlock_0.14.3+git20240315.55c680f-1_all.deb
- 0600b78451a29df026ad9dc4b46cef72 7629 misc optional sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
+ 977822ee26d724487f82691059b1268c 9480 misc optional sherlock_0.14.3+git20240315.55c680f-1.debian.tar.xz
+ 39b5ae9b5cb21a0182ed386f61483683 35008 misc optional sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 8c09a7155587d7c1bf5839e3e55a2f8f 8512 misc optional sherlock_0.14.3+git20240315.55c680f-1_amd64.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEvrnv4aYsNv9Ycrj9X1xxfc5AgVsFAmYu6+oACgkQX1xxfc5A
+gVsGUw//Z+Ung7RSKqSH4tKXMI6STvFvxN6afGRCM/U0VfCVe2gX9sxB6YLTlNjG
+ciI71QrEt/GhxADxXnNZJmc4S+MnauEn59INfuuSu86yDIV27WOVXTUwYr647yJB
+RmMbsqLD1r9c6TmZLp8vdlGoh+lJN2RRSKqFqBPhk4C0RFd3EdW/epKv3rSNBnrZ
+Fm3mGTQn6plonhz9YJGGxGeEVRoYYqPpW3557g7O1/Gsm4nMKvz6+onPhn6rpqHr
+EiUOrx2Jng/NVgDH19BxZ6gyyDaIkpwi0/FNIEsYKklYCJtUyQ/JvxlOeetaDmp7
+RnTLjcOEbGwfLatyUDnjwmr0TQG3RN0VGDxBy9Q4Fw7VTvQRlJE9wx1U02n9mSOB
+RZZiGpzjiPMENAEdDclHAR2X6Ht0sXPDXqXR3r0uO3ppdHSD4U0uur6F4oiSq/yx
+V/Bzdibtk0aBzTNolvP1CHGXGAhFWsbMakyq6oBAEPNbgjIXLFdn0vpSeGwyhs/6
+X8DDNAKFrTM0JrVYtqCJPs84TeD7AnSRraax8d7AC6G+IK1mSTda/7LjEOPBL7tr
+zw23MOY4wb9o6F82HkG00gAbCVUF1BzufeRkSWgcoJt+Ib+wdan9ZNSsfyC/7olV
+ZOE3/PGBeu5Eyhi4bT/DO00uiZ/sP2GmLePgmDd4bCgMbU/c6qE=
+=5ET0
+-----END PGP SIGNATURE-----

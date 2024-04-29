@@ -1,9 +1,0 @@
-sherlock/__pycache__/__init__.cpython-311.pyc
-sherlock/__pycache__/notify.cpython-311.pyc
-sherlock/__pycache__/result.cpython-311.pyc
-sherlock/__pycache__/sherlock.cpython-311.pyc
-sherlock/__pycache__/sites.cpython-311.pyc
-sherlock/tests/__pycache__/__init__.cpython-311.pyc
-sherlock/tests/__pycache__/test_multiple_usernames.cpython-311-pytest-7.4.4.pyc
-sherlock/__pycache__/scrape.cpython-311.pyc
-sherlock/__pycache__/wordlist_generator.cpython-311.pyc

@@ -1,0 +1,474 @@
+Description: Adding fullname lookup and wordlist generation functionalities to sherlock.py
+ TODO: implement image search
+ .
+ sherlock (0.14.3+git20240315.55c680f-1) unstable; urgency=medium
+ .
+   * New upstream version 0.14.3+git20240315.55c680f
+Author: Alex Lopez <alexog404@gmail.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
+Bug: <upstream-bugtracker-url>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: (no|not-needed|<patch-forwarded-url>)
+Applied-Upstream: <version>, (<commit-url>|commit:<commid-id>)
+Reviewed-By: <name and email of someone who approved/reviewed the patch>
+Last-Update: 2024-04-29
+
+--- sherlock-0.14.3+git20240315.55c680f.orig/requirements.txt
++++ sherlock-0.14.3+git20240315.55c680f/requirements.txt
+@@ -1,5 +1,7 @@
++beautifulsoup4>=4.12.2
+ certifi>=2019.6.16
+ colorama>=0.4.1
++google>=3.0.0
+ PySocks>=1.7.0
+ requests>=2.22.0
+ requests-futures>=1.0.0
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/fullname_lookup.py
+@@ -0,0 +1,30 @@
++# script to lookup full name
++# installation: pip install beautifulsoup4
++#               pip install google
++# Usage: python3 fullname_lookup.py "fullname" 
++import sys
++import os
++from googlesearch import search
++
++def fullname_lookup(fullname):
++    print(type(fullname))
++    if type(fullname) == type("string"): #replace spaces with "_"
++        file_name = f"{fullname.replace(' ', '_')}_name_search.txt"
++    elif type(fullname) == type(["list"]):
++        file_name = '_'.join(sys.argv[1:])  # Combines list of strings into one string
++
++    # Opens .txt in append mode, creates if doesn't exist
++    with open(file_name, 'a') as file:
++        # Simulates a google search, writing each individual link into a file
++        for j in search(fullname, tld="com", num=30, stop=15, pause=2):
++            file.write(j + "\n")
++
++    if os.path.exists(".google-cookie"):
++        os.remove(".google-cookie")
++
++if __name__ == "__main__":
++    if len(sys.argv) < 1:
++        print("Usage: python3 fullname_lookup.py [fullname] ")
++        sys.exit(1)
++    fullname = " ".join((sys.argv[1:]))
++    fullname_lookup(fullname) 
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/image_search.py
+@@ -0,0 +1,13 @@
++# script that takes advantage of google search api to reverse image search pictures of target
++# Usage: python image_search.py <image path> "<API_KEY>" "<Search Engine ID>"
++import sys
++# from google_images_search import GoogleImagesSearch
++
++if __name__ == "__main__":
++    if len(sys.argv) != 4: # arg variables must be correct
++        print("Usage: python image_search.py <image_path> \"<API_KEY>\" \"<Search Engine ID>\"")
++        sys.exit(1)
++
++    image_path = sys.argv[1]
++    Project_API_KEY = sys.argv[2] # user must use their own API credentials
++    Project_CX = sys.argv[3] # search engine ID
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/scrape.py
+@@ -0,0 +1,89 @@
++import requests
++from bs4 import BeautifulSoup
++import re
++
++# Function to extract visible text from a webpage
++def extract_visible_text(url):
++    try:
++        # Send a GET request to the URL
++        response = requests.get(url, timeout=1)
++        
++        # Check if the request was successful
++        if response.status_code == 200:
++            # Parse the HTML content of the webpage
++            soup = BeautifulSoup(response.content, 'html.parser')
++            visible_text = soup.get_text()
++            visible_text_list = visible_text.split()
++
++            # Define a regular expression pattern to match only alphanumeric characters
++            alphanumeric_pattern = re.compile(r'[^A-Za-z0-9]')
++
++            # Remove non-alphanumeric characters from each element in the array
++            visible_text_list = [re.sub(alphanumeric_pattern, '', s) for s in visible_text_list]
++
++            # remove words that are only 1 character or longer than 20
++            visible_text_list = [elem for elem in visible_text_list if (len(elem) > 1  and len(elem) <= 20)]
++
++            # shorten the list to 100 words max
++            if(len(visible_text_list) > 100):
++                visible_text_list = visible_text_list[:100]
++
++
++            print(f"Successfully fetched URL: {url}.")
++
++            return visible_text_list
++
++        else:
++            print(f"Failed to fetch URL: {url}. Status code: {response.status_code}")
++            return None
++    
++    except requests.exceptions.Timeout:
++        # Handle timeout
++        print(f"Request timed out for: {url}")
++
++    
++    except Exception as e:
++        print(f"Error fetching URL: {url}. Exception: {e}")
++        return None
++
++
++def scrape(username,file_path):
++    urls = ""
++    output_path = username + '_words.txt'
++
++    # Open the text file in read mode
++    with open((file_path), 'r') as file:
++        # Read the entire contents of the file
++        urls = file.read()
++
++    # List of Sherlock URLs
++    sherlock_urls_list = urls.strip().split('\n')
++    sherlock_urls_list = sherlock_urls_list[:-1]
++    # sherlock_urls_list = sherlock_urls_list[16:20] 
++
++    # Extract visible text from each URL
++    counter = 0
++    total_len = len(sherlock_urls_list)
++
++    with open(output_path, "w") as file:
++        # remove contents if file already exists
++        file.truncate(0)
++    
++    for url in sherlock_urls_list:
++        # print(f"Fetching content from URL: {url}")
++        counter = counter + 1
++        print(f"{counter}/{total_len}", end=" ")
++        visible_text = extract_visible_text(url)
++
++        if visible_text:            
++            with open(output_path, 'a') as file:
++                for word in visible_text:
++                    file.write(word)
++                    file.write("\n")
++
++    return output_path # return filepath for words
++
++
++
++if __name__ == "__main__":
++    scrape("apex_fanatic2020","apex_fanatic2020.txt")
+--- sherlock-0.14.3+git20240315.55c680f.orig/sherlock/sherlock.py
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/sherlock.py
+@@ -28,10 +28,13 @@ from .sites import SitesInformation
+ from colorama import init
+ from argparse import ArgumentTypeError
+ 
++### importing additional modules our team needs
++from bs4 import BeautifulSoup
++from googlesearch import search
++###
+ module_name = "Sherlock: Find Usernames Across Social Networks"
+ __version__ = "0.14.3"
+ 
+-
+ class SherlockFuturesSession(FuturesSession):
+     def request(self, method, url, hooks=None, *args, **kwargs):
+         """Request URL.
+@@ -96,7 +99,147 @@ class SherlockFuturesSession(FuturesSess
+             method, url, hooks=hooks, *args, **kwargs
+         )
+ 
++### from wordlist_generator.py
++# can edit this function to filter out unnecessary words
++def create_wrd_map(filepath):
++    word_freq = dict()
++    possible_dates = set()
++    with open(filepath, "r") as file:
++        for line in file:
++            word = line.strip().lower()
++            if word in word_freq:
++                word_freq[word] += 1
++            else:
++                word_freq[word] = 1
++            if word.isnumeric():
++                possible_dates.add(word)
++    return word_freq, possible_dates
++
++# pass in wordmap and a filepath to create permutations and write to file
++#  writes in append mode
++def generate_passwords(wmap, dates, filepath):
++    special_char = set(['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', '\\', ';', ':', ',', '.', '<', '>', '/', '?'])
++    with open(filepath, 'a') as file:
++        for wrd in wmap.keys():
++            file.write(f"{wrd}\n") #write base word
++            file.write(f"{wrd[0].upper()+wrd[1:]}\n") #capital only
++
++            for date in dates:
++                file.write(f"{wrd}{date}\n")
++                file.write(f"{wrd[0].upper()}{wrd[1:]}{date}\n")
++            for char in special_char:
++                file.write(f"{wrd}{char}\n")
++                file.write(f"{wrd[0].upper()}{wrd[1:]}{char}\n")
++            for i in range(10): # write all words starting with uppercase and ending with each digit
++                file.write(f"{wrd}{i}\n")
++                file.write(f"{wrd[0].upper()}{wrd[1:]}{i}\n")
++
++def gen_wordlist(words_file_path, output_path='target_wordlist.txt'):
++    words,dates = create_wrd_map(words_file_path) # create word frequency map from txt file of words that were scraped
++    
++    generate_passwords(words,dates,output_path)
++    os.remove(words_file_path) # done with words txt file
++###
++
++### from scrape.py
++# Function to extract visible text from a webpage
++def extract_visible_text(url):
++    try:
++        # Send a GET request to the URL
++        response = requests.get(url, timeout=1)
++        
++        # Check if the request was successful
++        if response.status_code == 200:
++            # Parse the HTML content of the webpage
++            soup = BeautifulSoup(response.content, 'html.parser')
++            visible_text = soup.get_text()
++            visible_text_list = visible_text.split()
++
++            # Define a regular expression pattern to match only alphanumeric characters
++            alphanumeric_pattern = re.compile(r'[^A-Za-z0-9]')
++
++            # Remove non-alphanumeric characters from each element in the array
++            visible_text_list = [re.sub(alphanumeric_pattern, '', s) for s in visible_text_list]
++
++            # remove words that are only 1 character or longer than 20
++            visible_text_list = [elem for elem in visible_text_list if (len(elem) > 1  and len(elem) <= 20)]
++
++            # shorten the list to 100 words max
++            if(len(visible_text_list) > 100):
++                visible_text_list = visible_text_list[:100]
+ 
++
++            print(f"Successfully fetched URL: {url}.")
++
++            return visible_text_list
++
++        else:
++            print(f"Failed to fetch URL: {url}. Status code: {response.status_code}")
++            return None
++    
++    except requests.exceptions.Timeout:
++        # Handle timeout
++        print(f"Request timed out for: {url}")
++
++    
++    except Exception as e:
++        print(f"Error fetching URL: {url}. Exception: {e}")
++        return None
++
++def scrape(username,file_path):
++    urls = ""
++    output_path = username + '_words.txt'
++
++    # Open the text file in read mode
++    with open((file_path), 'r') as file:
++        # Read the entire contents of the file
++        urls = file.read()
++
++    # List of Sherlock URLs
++    sherlock_urls_list = urls.strip().split('\n')
++    sherlock_urls_list = sherlock_urls_list[:-1]
++    # sherlock_urls_list = sherlock_urls_list[16:20] 
++
++    # Extract visible text from each URL
++    counter = 0
++    total_len = len(sherlock_urls_list)
++
++    with open(output_path, "w") as file:
++        # remove contents if file already exists
++        file.truncate(0)
++    
++    for url in sherlock_urls_list:
++        # print(f"Fetching content from URL: {url}")
++        counter = counter + 1
++        print(f"{counter}/{total_len}", end=" ")
++        visible_text = extract_visible_text(url)
++
++        if visible_text:            
++            with open(output_path, 'a') as file:
++                for word in visible_text:
++                    file.write(word)
++                    file.write("\n")
++
++    return output_path # return filepath for words
++###
++
++### from fullname_lookup.py
++# pass in a string
++def fullname_lookup(fullname):
++    file_name = f"{fullname.replace(' ', '_')}_name_search.txt"
++
++    count = 0
++    # Opens .txt in append mode, creates if doesn't exist
++    with open(file_name, 'a') as file:
++        # Simulates a google search, writing each individual link into a file
++        for j in search(fullname, tld="co.in", num=30, stop=15, pause=2):
++            file.write(j + "\n")
++            count += 1
++
++    if os.path.exists(".google-cookie"):
++        os.remove(".google-cookie")
++    return count
++###
+ def get_response(request_future, error_type, social_network):
+     # Default for Response object if some failure occurs.
+     response = None
+@@ -614,7 +757,7 @@ def main():
+     )
+     parser.add_argument(
+         "username",
+-        nargs="+",
++        nargs="*",
+         metavar="USERNAMES",
+         action="store",
+         help="One or more usernames to check with social networks. Check similar usernames using {?} (replace to '_', '-', '.').",
+@@ -642,8 +785,25 @@ def main():
+         default=False,
+         help="Include checking of NSFW sites from default list.",
+     )
++    ### added by our team
++    parser.add_argument(
++        "--wordlist", 
++        "-w",
++        action="store_true",
++        default=False,
++        help="Scrape words from found websites and create a wordlist from them.",
++    )
++    parser.add_argument(
++        "--name-search",
++        "-ns",
++        dest="name_search",
++        default=None,
++        help="Lookup a target by their fullname on google. Receive a file of links.",
++    )
++    ###
+ 
+     args = parser.parse_args()
++    # print(type(args.name_search))
+ 
+     # If the user presses CTRL-C, exit gracefully without throwing errors
+     signal.signal(signal.SIGINT, handler)
+@@ -666,6 +826,20 @@ def main():
+     except Exception as error:
+         print(f"A problem occurred while checking for an update: {error}")
+ 
++    ### added by our team
++    if args.name_search is not None:
++        print(f"Conducting name search of \"{args.name_search}\" on google...")
++        count = fullname_lookup(args.name_search)
++        print(f"Name search completed with {count} results.")
++        if len(args.username) == 0:
++            sys.exit(1)
++
++    if len(args.username) == 0:
++        parser.print_usage()
++        print("You must have a USERNAME and/or --NAME-SEARCH argument.")
++        sys.exit(1)
++    ###
++
+     # Argument check
+     # TODO regex check on args.proxy
+     if args.tor and (args.proxy is not None):
+@@ -869,6 +1043,24 @@ def main():
+             )
+             DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
+ 
++        if args.wordlist:
++            print("Creating wordlist(s)...")
++            if args.output:
++                extension = os.path.splitext(result_file)[1] # get extension of file if any
++                if len(extension): # has extension
++                    wordlist_output_path = f"{username}_wordlist" + extension
++                else:
++                    wordlist_output_path = f"{username}_wordlist.txt"
++            elif args.folderoutput:
++                # The usernames results should be stored in a targeted folder.
++                # If the folder doesn't exist, create it first
++                os.makedirs(args.folderoutput, exist_ok=True)
++                wordlist_output_path = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
++            else:
++                wordlist_output_path = f"{username}_wordlist.txt"            
++
++            words_path = scrape(username,result_file)
++            gen_wordlist(words_path, wordlist_output_path)
+         print()
+     query_notify.finish()
+ 
+--- /dev/null
++++ sherlock-0.14.3+git20240315.55c680f/sherlock/wordlist_generator.py
+@@ -0,0 +1,52 @@
++# python script that should take in a raw txt file of words 
++# that have been accumulated from social media webpages 
++# preferably created by the target
++import os
++
++def sorted_by_values(d): # return a sorted dictionary by values descending
++    return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
++
++# can edit this function to filter out unnecessary words
++def create_wrd_map(filepath):
++    word_freq = dict()
++    possible_dates = set()
++    with open(filepath, "r") as file:
++        for line in file:
++            word = line.strip().lower()
++            if word in word_freq:
++                word_freq[word] += 1
++            else:
++                word_freq[word] = 1
++            if word.isnumeric():
++                possible_dates.add(word)
++    return word_freq, possible_dates
++
++# pass in wordmap and a filepath to create permutations and write to file
++#  writes in append mode
++def generate_passwords(wmap, dates, filepath):
++    special_char = set(['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', '\\', ';', ':', ',', '.', '<', '>', '/', '?'])
++    with open(filepath, 'a') as file:
++        for wrd in wmap.keys():
++            file.write(f"{wrd}\n") #write base word
++            file.write(f"{wrd[0].upper()+wrd[1:]}\n") #capital only
++
++            for date in dates:
++                file.write(f"{wrd}{date}\n")
++                file.write(f"{wrd[0].upper()}{wrd[1:]}{date}\n")
++            for char in special_char:
++                file.write(f"{wrd}{char}\n")
++                file.write(f"{wrd[0].upper()}{wrd[1:]}{char}\n")
++            for i in range(10): # write all words starting with uppercase and ending with each digit
++                file.write(f"{wrd}{i}\n")
++                file.write(f"{wrd[0].upper()}{wrd[1:]}{i}\n")
++
++def gen_wordlist(words_file_path, output_path='target_wordlist.txt'):
++    words,dates = create_wrd_map(words_file_path) # create word frequency map from txt file of words that were scraped
++    # words = sorted_by_values(words)
++    
++    generate_passwords(words,dates,output_path)
++    os.remove(words_file_path) # done with words txt file
++    
++if __name__ == "__main__":
++    gen_wordlist("apex_fanatic2020_words.txt","apex_fanatic2020_wordlist.txt")
++

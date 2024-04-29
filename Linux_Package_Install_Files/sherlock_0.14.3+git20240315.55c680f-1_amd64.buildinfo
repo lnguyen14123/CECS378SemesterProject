@@ -1,20 +1,23 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
 Format: 1.0
 Source: sherlock
 Binary: sherlock
 Architecture: all source
 Version: 0.14.3+git20240315.55c680f-1
 Checksums-Md5:
- 8a48c44977e86b50e6aa5c54512bc558 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
- ce1ad2a81dfb242f985dc28c58844d0b 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 654cbcafe87cc688ffd53beaa96d336d 2415 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 39b5ae9b5cb21a0182ed386f61483683 35008 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Checksums-Sha1:
- 8cbf007a01ed1e3a8fcb8741439526b282f76582 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
- 74f58f9767c448019347632670bd7a1cbe184fee 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ 77af863386e0d3ba923f859887dab55059098474 2415 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 43717b005412d81471dcbbb2bda2f30c8eec0216 35008 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Checksums-Sha256:
- 2c86dd6aa27391459ded61c25608c10823bc13eec0cc934f6e4379627996d2bf 1535 sherlock_0.14.3+git20240315.55c680f-1.dsc
- 5efaa209e67b8df4bc0bd00aef906d2b949958fe74bce79814d1d9e39a9d401a 35016 sherlock_0.14.3+git20240315.55c680f-1_all.deb
+ f2dd665b0f8e7aea0f0c24aeb60f889303b62812fe5e957a5834d2eac1cbc58f 2415 sherlock_0.14.3+git20240315.55c680f-1.dsc
+ 9d8861f0e8b2c38488be98c4e9a8c403a95de4f4db9dbfb23dda687c350f1e15 35008 sherlock_0.14.3+git20240315.55c680f-1_all.deb
 Build-Origin: Kali
 Build-Architecture: amd64
-Build-Date: Sun, 28 Apr 2024 16:14:27 -0700
+Build-Date: Sun, 28 Apr 2024 17:30:32 -0700
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
 Installed-Build-Depends:
@@ -256,3 +259,20 @@ Environment:
  DEB_BUILD_OPTIONS="parallel=8"
  LANG="C.UTF-8"
  SOURCE_DATE_EPOCH="1712424800"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEvrnv4aYsNv9Ycrj9X1xxfc5AgVsFAmYu6+oACgkQX1xxfc5A
+gVusTxAA3VSRaC7Dsq0EhT580ZqI9KqjDCs+QpuvKxhcjJcqmST9gzeMhZAToWAs
+AYM4diWkCFeDE3bnRqvfRKbrVE7U71UiuV1YZlCNB5a11c8+05ZdSrCZkeQhVnTQ
+po+27f1B06IofPmjH+cqU+nuG5jg3Gymfk3WXVZU1Rb1VXC5cwTvqsF//UiCpNvq
+cCfJmmF8arg+a9SpluEniOc8J9f63vkuD5dNlLKgmB5eIWHcEFUN8YB95vbYnFxn
+o/yiJAikmdvWvuPnrxJOXrAhjTE6i2AAyUu11LryEndUZ01C6c+K0UJqSsUpng2d
+feYQPrWM7bfrHAhXqVRMk7b4GnW1I0nUPmGWKXn1wDEDTbuHxh802lraQVYMMwb6
+OET5734zj70zImr6vlmay9Tjimh5UkfJHKHrRTcPVYKdrvwxqYcl8kreBzkKrZiY
+LYc1p2pYxfn6CIs6mmCIYVtQTf46TMbQK78eGRKk3apv2Uhlc0MBPB9LF81Eyz6m
+RJfSXnS+lX31oV1GqH4lKtTQC7HU/pkvyps3Rp2leb+nSeoeTX1tKMLz64HDTvZn
+wl5RXSfodNCyz3U/lR6pIsgTR347S+BpV6eUSZHe/qCgO//rEyDvkBfKZSXNPyZd
+avwdLsxVFrAa1oS6Y5yqKPVyXM6eyrJWGPJUMWTu8QAHqbzaXkA=
+=6lvf
+-----END PGP SIGNATURE-----
