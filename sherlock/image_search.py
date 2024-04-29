@@ -1,20 +1,9 @@
 # script that takes advantage of google search api to reverse image search pictures of target
-# Usage: python image_search.py <image path> "<API_KEY>" "<Search Engine ID>"
 import sys
 from imgurpython import ImgurClient as imgur
 from serpapi import GoogleSearch
 import base64
 import requests
-
-
-# from google_images_search import GoogleImagesSearch
-
-#Imgur Client: f0af1953936b647
-#Imgur Secret: 15cf26798f8c0cdadf9953f82255a5c08e17f379
-#Endpoint: https://api.imgur.com/3/image
-
-#Serp API Key: abdc4ceec32ee7065547ea930bc8b064f1fa7f6ff51fc46ad0246e682e82a160
-#Endpoint: https://serpapi.com/search?engine=google_reverse_image
 
 client_id = 'f0af1953936b647'
 file_path = 'C:\\Users\\BryanPC\\Downloads\\lebron.jpg'
@@ -65,7 +54,7 @@ def image_search(output_path='website_list.txt'):
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print("Usage: python3 image_search.py [image path] [SerpAPI Key] [Imgur Client ID] [Imgur Client Secret]")
+        print("Usage: python3 image_search.py [image path] [Imgur Client ID] [SerpAPI Key]")
         sys.exit(1)
     image_search(sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3])
 
