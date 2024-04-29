@@ -1,0 +1,4 @@
+Test-Command: sherlock --help
+Depends: python3-all,
+         @
+Restrictions: superficial
