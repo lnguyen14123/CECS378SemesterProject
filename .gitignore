@@ -21,6 +21,8 @@ src/
 # Output files, except requirements.txt
 *.txt
 !requirements.txt
+!Apex_fanatic2020_passwordhash.txt
+!Embarrassed-Hawk8464_passwordhash.txt
 
 # Comma-Separated Values (CSV) Reports
 *.csv
