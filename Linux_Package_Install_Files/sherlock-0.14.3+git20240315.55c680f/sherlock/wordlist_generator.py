@@ -49,4 +49,3 @@ def gen_wordlist(words_file_path, output_path='target_wordlist.txt'):
     
 if __name__ == "__main__":
     gen_wordlist("apex_fanatic2020_words.txt","apex_fanatic2020_wordlist.txt")
-

@@ -31,6 +31,8 @@ from argparse import ArgumentTypeError
 ### importing additional modules our team needs
 from bs4 import BeautifulSoup
 from googlesearch import search
+from serpapi import GoogleSearch
+import base64 
 ###
 module_name = "Sherlock: Find Usernames Across Social Networks"
 __version__ = "0.14.3"
@@ -239,6 +241,59 @@ def fullname_lookup(fullname):
     if os.path.exists(".google-cookie"):
         os.remove(".google-cookie")
     return count
+###
+
+
+### from image_search.py
+
+def image_search(file_path, serpApiKey, imgurClientId): 
+    output_path='image_search_website_list.txt'
+    encoded_string = None
+    websiteList = []
+    try:
+        with open(file_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+    except:
+        print("File was not found. Double check the path to your image.")
+        return
+    headers = {
+        'Authorization': 'Client-ID {}'.format(imgurClientId)
+    }
+
+    res = requests.post(url="https://api.imgur.com/3/image", headers=headers, data={
+        "image": encoded_string
+    })
+    resUpload = res.json()
+    if "data" in resUpload:
+        searchLink = resUpload['data']['link']
+
+        params = {
+            "engine": "google_reverse_image",
+            "image_url": searchLink,
+            "api_key": serpApiKey
+        }
+
+        search = GoogleSearch(params)
+        results = search.get_dict()
+
+        if "error" not in results:
+            image_results = results["image_results"]
+
+            for dictionary in image_results:
+                if "link" in dictionary:
+                    websiteList.append(dictionary["link"])
+                if "sitelinks" in dictionary:
+                    for linkdict in dictionary["sitelinks"]["list"]:
+                        websiteList.append(linkdict["link"])
+
+            with open(output_path, 'w') as file:
+                for site in websiteList:
+                    file.write(f"{site}\n") #write base word
+                file.close()
+        else:
+            print(results["error"])
+    else:
+        print("Error uploading to Imgur. Double check your Imgur Client ID.")
 ###
 def get_response(request_future, error_type, social_network):
     # Default for Response object if some failure occurs.
@@ -800,6 +855,30 @@ def main():
         default=None,
         help="Lookup a target by their fullname on google. Receive a file of links.",
     )
+
+    parser.add_argument(
+        "--img-search",
+        "-is",
+        dest="image_search",
+        default=None,
+        help="Reverse image search to find relevant websites",
+    )
+
+    parser.add_argument(
+        "--imgurClientId",
+        "-cid",
+        dest="imgur_id",
+        required="--img-search" in sys.argv,
+        help="Other argument required when --img-search is used",
+    )
+
+    parser.add_argument(
+        "--serpApiKey",
+        "-sk",
+        dest="serp_key",
+        required="--img-search" in sys.argv,
+        help="Other argument required when --img-search is used",
+    )
     ###
 
     args = parser.parse_args()
@@ -831,6 +910,12 @@ def main():
         print(f"Conducting name search of \"{args.name_search}\" on google...")
         count = fullname_lookup(args.name_search)
         print(f"Name search completed with {count} results.")
+        if len(args.username) == 0 and args.image_search is None:
+            sys.exit(1)
+
+    if args.image_search is not None:
+        print(f"Reverse image searching with image located at {args.image_search}")
+        image_search(args.image_search, args.serp_key, args.imgur_id)    
         if len(args.username) == 0:
             sys.exit(1)
 
