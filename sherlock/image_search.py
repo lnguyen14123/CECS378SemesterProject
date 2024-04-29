@@ -2,9 +2,10 @@
 # Usage: python image_search.py <image path> "<API_KEY>" "<Search Engine ID>"
 import sys
 from imgurpython import ImgurClient as imgur
-import requests
 from serpapi import GoogleSearch
 import base64
+import requests
+
 
 # from google_images_search import GoogleImagesSearch
 
@@ -16,14 +17,9 @@ import base64
 #Endpoint: https://serpapi.com/search?engine=google_reverse_image
 
 client_id = 'f0af1953936b647'
-client_secret = '15cf26798f8c0cdadf9953f82255a5c08e17f379'
 file_path = 'C:\\Users\\BryanPC\\Downloads\\lebron.jpg'
 
-def print_dictionary(dictionary):
-    for key, value in dictionary.items():
-        print(f"{key}: {value}")
-
-def main(output_path='website_list.txt'): 
+def image_search(output_path='website_list.txt'): 
     encoded_string = None
     websiteList = []
 
@@ -66,7 +62,11 @@ def main(output_path='website_list.txt'):
         for site in websiteList:
             file.write(f"{site}\n") #write base word
         file.close()
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 4:
+        print("Usage: python3 image_search.py [image path] [SerpAPI Key] [Imgur Client ID] [Imgur Client Secret]")
+        sys.exit(1)
+    image_search(sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3])
 
 

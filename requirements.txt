@@ -1,7 +1,7 @@
 beautifulsoup4>=4.12.2
 certifi>=2019.6.16
 colorama>=0.4.1
-google_images_search>=1.4.6
+google>=3.0.0
 PySocks>=1.7.0
 requests>=2.22.0
 requests-futures>=1.0.0
@@ -10,4 +10,4 @@ torrequest>=0.1.0
 pandas>=1.0.0
 openpyxl<=3.0.10
 exrex>=0.11.0
-google_images_search>=2.4.2
+google-search-results>=2.4.2
