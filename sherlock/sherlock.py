@@ -32,7 +32,7 @@ from argparse import ArgumentTypeError
 from bs4 import BeautifulSoup
 from googlesearch import search
 from serpapi import GoogleSearch
-import base64
+import base64 
 ###
 module_name = "Sherlock: Find Usernames Across Social Networks"
 __version__ = "0.14.3"
