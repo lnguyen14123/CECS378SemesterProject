@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Team 3 CECS 378 Semester Project
 
 An expansion of Sherlock's data reconnaisance capabilities.
@@ -24,6 +22,10 @@ Instructions for setting up the project locally. Include prerequisites and insta
 ### Prerequisites
 
 John the Ripper is recommended to use for password cracking with the provided wordlist, but the generated wordlist can be used alone as well.
+
+#### ** Disclaimer ** 
+
+This Linux Package is intended for Debian-based distributions and has only been tested on Kali Linux Purple. It may work on other OS's but this has not been confirmed.
 
 ## How to install:
 
