@@ -921,7 +921,7 @@ def main():
 
     if len(args.username) == 0:
         parser.print_usage()
-        print("You must have a USERNAME and/or --NAME-SEARCH argument.")
+        print("You must have a USERNAME, --NAME-SEARCH, and/or --IMG-SEARCH argument.")
         sys.exit(1)
     ###
 
