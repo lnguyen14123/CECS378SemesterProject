@@ -14,10 +14,11 @@ sudo apt-get build-dep .
 pip3 install -r requirements.txt
 
 #build package with fakeroot as to not alter system files by accident
-#dpkg-buildpackage -rfakeroot
+#dpkg-buildpackage 
 
 # return to original dir
 cd ..
 
 #install the built package
 #sudo dpkg -i sherlock_0.14.3+git20240315.55c680f-1_all.deb
+
