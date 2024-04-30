@@ -1,13 +1,10 @@
-#must update apt after changing deb-src
-#sudo apt update
-
 #compile the source files for the package
 dpkg-source -x sherlock_0.14.3+git20240315.55c680f-1.dsc
 
 #change directory to root dir of source files
 cd sherlock-0.14.3+git20240315.55c680f
 
-#build dependencies for package as stated in debian/control file
+#install build dependencies for package as stated in debian/control file
 sudo apt-get build-dep .
 
 #install python run-time dependencies
