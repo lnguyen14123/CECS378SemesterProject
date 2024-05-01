@@ -79,8 +79,6 @@ Image Search: Perform an image search using the -ris option followed by the path
 python3 sherlock.py -ris <path/to/image/> -sk <SerpApi key> -cid <Imgur Client ID>
 ```
 
-Note: Ensure proper permissions and usage policies are followed when utilizing this tool. 
-
 ## Lisence
 
 MIT © Sherlock Project
