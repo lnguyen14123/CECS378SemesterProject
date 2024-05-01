@@ -1,4 +1,4 @@
-# Team 3 CECS 378 Semester Project
+# Team 3 CECS 378 Semester Project: Sherlock debian package on Kali Linux Purple
 
 An expansion of Sherlock's data reconnaisance capabilities.
 
@@ -25,7 +25,7 @@ John the Ripper is recommended to use for password cracking with the provided wo
 
 #### ** Disclaimer ** 
 
-This Linux Package is intended for Debian-based distributions and has only been tested on Kali Linux Purple. It may work on other OS's but this has not been confirmed.
+This Linux Package is intended for Debian-based distributions and has only been tested on Kali Linux Purple. 
 
 ## How to install:
 
