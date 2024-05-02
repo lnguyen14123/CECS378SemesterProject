@@ -1,4 +1,4 @@
-# Team 3 CECS 378 Semester Project: Sherlock debian package on Kali Linux Purple
+# Team 3 CECS 378 Semester Project: Sherlock on Kali Linux Purple
 
 An expansion of Sherlock's data reconnaisance capabilities.
 
@@ -15,6 +15,12 @@ An expansion of Sherlock's data reconnaisance capabilities.
 
 By utilizing a mix of John the Ripper as well as Sherlock, this project combines the abilities of data reconnaissance and password cracking in order to expand the capabilities of John the Ripper. By webscraping URLs provided by Sherlock for any one target, a wordlist can be produced with passwords potentially used by the target. Then, by providing this wordlist to John the Ripper, John can better crack password hashes generated from the target user.
 
+### Overview of functionalities our team added:
+
+- Wordlist generation
+- Full name lookup capabilities
+- Reverse Image Searching
+
 ## Getting Started
 
 Instructions for setting up the project locally. Include prerequisites and installation steps.
@@ -25,7 +31,12 @@ John the Ripper is recommended to use for password cracking with the provided wo
 
 #### ** Disclaimer ** 
 
-This Linux Package is intended for Debian-based distributions and has only been tested on Kali Linux Purple. 
+This Linux Package is intended for Debian-based distributions and has only been tested on Kali Linux Purple.
+
+The Sherlock script can be run with any python environment as long as the requirements are installed.
+```
+pip install -r requirements.txt
+```
 
 ## How to install:
 
