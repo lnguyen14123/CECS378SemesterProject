@@ -33,10 +33,11 @@ John the Ripper is recommended to use for password cracking with the provided wo
 
 This Linux Package is intended for Debian-based distributions and has only been tested on Kali Linux Purple.
 
-The Sherlock script can be run with any python environment as long as the requirements are installed.
+The Sherlock script can be run within any python environment as long as the requirements are installed.
 ```
 pip install -r requirements.txt
 ```
+Python should be able to run sherlock and any of its commands (including the ones added by us) directly from the root directory of this project.
 
 ## How to install:
 
@@ -63,31 +64,29 @@ Once the project is installed, you can utilize it for data reconnaissance and pa
 Run Sherlock: Execute Sherlock to scrape URLs related to your target and generate a wordlist directly.
 
 ```
-python3 sherlock.py <target_name> --wordlist 
+sherlock <username> --wordlist 
 ```
-
-Replace <target_name> with the name of your target.
 
 Password Cracking with John the Ripper: After generating the wordlist, enhance John the Ripper's capabilities for cracking password hashes by providing it with the generated wordlist.
 
 ```
-john --wordlist=<path_to_wordlist_file> <password_hashes_file>
+john --wordlist=<wordlist> <hash_file>
 ```
 
-Replace <path_to_wordlist_file> with the path to the generated wordlist file and <password_hashes_file> with the file containing the password hashes you want to crack.
+Replace <wordlist> with the path to the generated wordlist file and <hash_file> with the file containing the password hashes you want to crack.
 
 #### Additional Options:
 
 Full Name Search: Perform a search based on the target's full name using the -ns option followed by the target's full name.
 
 ```
-python3 sherlock.py -ns <target_full_name>
+sherlock -ns <target_full_name>
 ```
 
-Image Search: Perform an image search using the -ris option followed by the path to the image file. You may also need to specify a SerpApi key using the -sk option and an Imgur Client ID using the -cid option.
+Image Search: Perform a search by image using the -ris option followed by the path to the image file. You must also need to specify a SerpApi key using the -sk option and an Imgur Client ID using the -cid option.
 
 ```
-python3 sherlock.py -ris <path/to/image/> -sk <SerpApi key> -cid <Imgur Client ID>
+sherlock -ris /path/to/image -sk <SerpApi key> -cid <Imgur Client ID>
 ```
 
 ## Lisence
