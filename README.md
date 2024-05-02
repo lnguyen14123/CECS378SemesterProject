@@ -86,7 +86,7 @@ sherlock -ns <target_full_name>
 Image Search: Perform a search by image using the -ris option followed by the path to the image file. You must also need to specify a SerpApi key using the -sk option and an Imgur Client ID using the -cid option.
 
 ```
-sherlock -ris /path/to/image -sk <SerpApi key> -cid <Imgur Client ID>
+sherlock -is /path/to/image -sk <SerpApi key> -cid <Imgur Client ID>
 ```
 
 ## Lisence
